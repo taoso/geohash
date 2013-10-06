@@ -11,7 +11,7 @@ You may install GeoHash with Composer (recommended) or manually.
 Just add 'geo/geohash' to your composer.json and run `composer install`.
 
 ### System Requirements
-You need **PHP >= 5.3.0**.
+You need **PHP >= 5.4.0**.
 
 ### Usage
 Encode a coordinate:
