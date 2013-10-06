@@ -29,4 +29,41 @@ Find the neighbors for a given geohash:
     use Geo\GeoHash;
     var_dump(GeoHash::expand('wwe0x0'));
 
-and the result is `array("wwe0wc","wwe0x1","wwe0x3","wwe0wb","wwe0x2","wwe0qz","wwe0rp","wwe0rr")`.
+and the result is:
+
+    array(8) {
+      [0] =>
+      string(11) "wwe0wc7zzzz"
+      [1] =>
+      string(11) "wwe0x17zzzz"
+      [2] =>
+      string(11) "wwe0x37zzzz"
+      [3] =>
+      string(11) "wwe0wb7zzzz"
+      [4] =>
+      string(11) "wwe0x27zzzz"
+      [5] =>
+      string(11) "wwe0qz7zzzz"
+      [6] =>
+      string(11) "wwe0rp7zzzz"
+      [7] =>
+      string(11) "wwe0rr7zzzz"
+    }
+
+Decode a geohash string:
+
+    Use Geo\GeoHash;
+    var_dump(GeoHash::decode('wwe0x0'));
+
+and the result is:
+
+    array(4) {
+      [0] =>
+      double(117.0263671875)    # min longitude
+      [1] =>
+      double(117.03735351562)   # max longitude
+      [2] =>
+      double(36.650390625)      # min latitude
+      [3] =>
+      double(36.655883789062)   # max latitude
+    }

@@ -66,7 +66,13 @@ class GeoHash {
         );
     }
 
-    static private function decode($hash) {
+    /**
+     * decode a geohash string to a geographical area
+     *
+     * @var $hash string geohash
+     * @return array array($minlng, $maxlng, $minlat, $maxlat);
+     */
+    static public function decode($hash) {
         $minlng = -180; $maxlng = 180;
         $minlat =  -90; $maxlat = 90;
 
