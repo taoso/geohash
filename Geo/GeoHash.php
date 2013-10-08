@@ -12,32 +12,38 @@ class GeoHash {
 
         $hash = array();
         $error = 180;
-        $i = 0;
+        $isEven = true;
+        $chr = 0b00000;
+        $b = 0;
 
         while($error >= $prec) {
-            $chr = 0b00000;
-            for($b=0; $b < 5; $b++) {
-                if((1&$b) == (1&$i)) {
-                    $next = ($minlng + $maxlng) / 2;
-                    if($lng > $next) {
-                        $chr |= self::$bits[$b];
-                        $minlng = $next;
-                    } else {
-                        $maxlng = $next;
-                    }
+            if($isEven) {
+                $next = ($minlng + $maxlng) / 2;
+                if($lng > $next) {
+                    $chr |= self::$bits[$b];
+                    $minlng = $next;
                 } else {
-                    $next = ($minlat + $maxlat) / 2;
-                    if($lat > $next) {
-                        $chr |= self::$bits[$b];
-                        $minlat = $next;
-                    } else {
-                        $maxlat = $next;
-                    }
+                    $maxlng = $next;
+                }
+            } else {
+                $next = ($minlat + $maxlat) / 2;
+                if($lat > $next) {
+                    $chr |= self::$bits[$b];
+                    $minlat = $next;
+                } else {
+                    $maxlat = $next;
                 }
             }
-            $hash[] = self::$table[$chr];
-            $i++;
-            $error = max($maxlng - $minlng, $maxlat - $minlat);
+            $isEven = !$isEven;
+
+            if ($b < 4) {
+                $b++;
+            } else {
+                $hash[] = self::$table[$chr];
+                $error = max($maxlng - $minlng, $maxlat - $minlat);
+                $b = 0;
+                $chr = 0b00000;
+            }
         }
 
         return join('', $hash);
