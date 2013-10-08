@@ -3,21 +3,24 @@ namespace Geo;
 
 class GeoHash {
     static $table = "0123456789bcdefghjkmnpqrstuvwxyz";
+    static $bits = array(
+        0b10000, 0b01000, 0b00100, 0b00010, 0b00001
+    );
     static public function encode($lng, $lat, $prec=0.00001) {
         $minlng = -180; $maxlng = 180;
         $minlat = -90; $maxlat = 90;
 
         $hash = array();
         $error = 180;
-        $i=0;
+        $i = 0;
 
         while($error >= $prec) {
-            $chr = 0;
-            for($b=4; $b>= 0; --$b) {
+            $chr = 0b00000;
+            for($b=0; $b < 5; $b++) {
                 if((1&$b) == (1&$i)) {
                     $next = ($minlng + $maxlng) / 2;
                     if($lng > $next) {
-                        $chr |= 0b00001 << $b;
+                        $chr |= self::$bits[$b];
                         $minlng = $next;
                     } else {
                         $maxlng = $next;
@@ -25,7 +28,7 @@ class GeoHash {
                 } else {
                     $next = ($minlat + $maxlat) / 2;
                     if($lat > $next) {
-                        $chr |= 0b00001 << $b;
+                        $chr |= self::$bits[$b];
                         $minlat = $next;
                     } else {
                         $maxlat = $next;
