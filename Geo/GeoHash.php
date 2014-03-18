@@ -1,14 +1,19 @@
 <?php
 namespace Geo;
 
-class GeoHash {
-    static $table = "0123456789bcdefghjkmnpqrstuvwxyz";
-    static $bits = array(
+class GeoHash
+{
+    private static $table = "0123456789bcdefghjkmnpqrstuvwxyz";
+    private static $bits = array(
         0b10000, 0b01000, 0b00100, 0b00010, 0b00001
     );
-    static public function encode($lng, $lat, $prec=0.00001) {
-        $minlng = -180; $maxlng = 180;
-        $minlat = -90; $maxlat = 90;
+
+    public static function encode($lng, $lat, $prec = 0.00001)
+    {
+        $minlng = -180;
+        $maxlng = 180;
+        $minlat = -90;
+        $maxlat = 90;
 
         $hash = array();
         $error = 180;
@@ -16,10 +21,10 @@ class GeoHash {
         $chr = 0b00000;
         $b = 0;
 
-        while($error >= $prec) {
-            if($isEven) {
+        while ($error >= $prec) {
+            if ($isEven) {
                 $next = ($minlng + $maxlng) / 2;
-                if($lng > $next) {
+                if ($lng > $next) {
                     $chr |= self::$bits[$b];
                     $minlng = $next;
                 } else {
@@ -27,7 +32,7 @@ class GeoHash {
                 }
             } else {
                 $next = ($minlat + $maxlat) / 2;
-                if($lat > $next) {
+                if ($lat > $next) {
                     $chr |= self::$bits[$b];
                     $minlat = $next;
                 } else {
@@ -49,10 +54,12 @@ class GeoHash {
         return join('', $hash);
     }
 
-    static public function expand($hash) {
+    public static function expand($hash)
+    {
         list($minlng, $maxlng, $minlat, $maxlat) = self::decode($hash);
         $dlng = ($maxlng - $minlng) / 2;
         $dlat = ($maxlat - $minlat) / 2;
+
         return array(
             self::encode($minlng - $dlng, $maxlat + $dlat),
             self::encode($minlng + $dlng, $maxlat + $dlat),
@@ -65,8 +72,10 @@ class GeoHash {
         );
     }
 
-    static public function getRect($hash) {
+    public static function getRect($hash)
+    {
         list($minlng, $maxlng, $minlat, $maxlat) = self::decode($hash);
+
         return array(
             array($minlng, $minlat),
             array($minlng, $maxlat),
@@ -81,60 +90,63 @@ class GeoHash {
      * @var $hash string geohash
      * @return array array($minlng, $maxlng, $minlat, $maxlat);
      */
-    static public function decode($hash) {
-        $minlng = -180; $maxlng = 180;
-        $minlat =  -90; $maxlat = 90;
+    public static function decode($hash)
+    {
+        $minlng = -180;
+        $maxlng = 180;
+        $minlat = -90;
+        $maxlat = 90;
 
-        for($i=0,$c=strlen($hash); $i<$c; $i++) {
+        for ($i=0,$c=strlen($hash); $i<$c; $i++) {
             $v = strpos(self::$table, $hash[$i]);
-            if(1&$i) {
-                if(16&$v) {
+            if (1&$i) {
+                if (16&$v) {
                     $minlat = ($minlat + $maxlat) / 2;
                 } else {
                     $maxlat = ($minlat + $maxlat) / 2;
                 }
-                if(8&$v) {
+                if (8&$v) {
                     $minlng = ($minlng + $maxlng) / 2;
                 } else {
                     $maxlng = ($minlng + $maxlng) / 2;
                 }
-                if(4&$v) {
+                if (4&$v) {
                     $minlat = ($minlat + $maxlat) / 2;
                 } else {
                     $maxlat = ($minlat + $maxlat) / 2;
                 }
-                if(2&$v) {
+                if (2&$v) {
                     $minlng = ($minlng + $maxlng) / 2;
                 } else {
                     $maxlng = ($minlng + $maxlng) / 2;
                 }
-                if(1&$v) {
+                if (1&$v) {
                     $minlat = ($minlat + $maxlat) / 2;
                 } else {
                     $maxlat = ($minlat + $maxlat) / 2;
                 }
             } else {
-                if(16&$v) {
+                if (16&$v) {
                     $minlng = ($minlng + $maxlng) / 2;
                 } else {
                     $maxlng = ($minlng + $maxlng) / 2;
                 }
-                if(8&$v) {
+                if (8&$v) {
                     $minlat = ($minlat + $maxlat) / 2;
                 } else {
                     $maxlat = ($minlat + $maxlat) / 2;
                 }
-                if(4&$v) {
+                if (4&$v) {
                     $minlng = ($minlng + $maxlng) / 2;
                 } else {
                     $maxlng = ($minlng + $maxlng) / 2;
                 }
-                if(2&$v) {
+                if (2&$v) {
                     $minlat = ($minlat + $maxlat) / 2;
                 } else {
                     $maxlat = ($minlat + $maxlat) / 2;
                 }
-                if(1&$v) {
+                if (1&$v) {
                     $minlng = ($minlng + $maxlng) / 2;
                 } else {
                     $maxlng = ($minlng + $maxlng) / 2;
