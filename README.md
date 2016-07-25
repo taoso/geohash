@@ -6,9 +6,8 @@ Simple php geohash class like python-geohash.
 ## Getting Started
 
 ### Install
-You may install GeoHash with Composer (recommended) or manually.
 
-Just add 'geo/geohash' to your composer.json and run `composer install`.
+  composer require lvht/geohash
 
 ### System Requirements
 You need **PHP >= 5.4.0**.
@@ -16,7 +15,7 @@ You need **PHP >= 5.4.0**.
 ### Usage
 Encode a coordinate:
 
-    use Geo\GeoHash;
+    use Lvht\GeoHash;
     echo GeoHash::encode(117.031689,36.65396);
 
 The result is wwe0x0euu12.
@@ -26,7 +25,7 @@ of encode method.
 
 Find the neighbors for a given geohash:
 
-    use Geo\GeoHash;
+    use Lvht\GeoHash;
     var_dump(GeoHash::expand('wwe0x0'));
 
 and the result is:
@@ -52,7 +51,7 @@ and the result is:
 
 Decode a geohash string:
 
-    Use Geo\GeoHash;
+    Use Lvht\GeoHash;
     var_dump(GeoHash::decode('wwe0x0'));
 
 and the result is:

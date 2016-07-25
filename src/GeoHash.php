@@ -1,5 +1,5 @@
 <?php
-namespace Geo;
+namespace Lvht;
 
 class GeoHash
 {
