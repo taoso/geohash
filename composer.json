@@ -1,5 +1,5 @@
 {
-    "name": "geo/geohash",
+    "name": "lvht/geohash",
     "type": "library",
     "description": "geohash like python-geohash",
     "keywords": ["geohash"],
