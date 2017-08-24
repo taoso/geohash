@@ -54,21 +54,21 @@ class GeoHash
         return join('', $hash);
     }
 
-    public static function expand($hash)
+    public static function expand($hash, $prec = 0.00001)
     {
         list($minlng, $maxlng, $minlat, $maxlat) = self::decode($hash);
         $dlng = ($maxlng - $minlng) / 2;
         $dlat = ($maxlat - $minlat) / 2;
 
         return array(
-            self::encode($minlng - $dlng, $maxlat + $dlat),
-            self::encode($minlng + $dlng, $maxlat + $dlat),
-            self::encode($maxlng + $dlng, $maxlat + $dlat),
-            self::encode($minlng - $dlng, $maxlat - $dlat),
-            self::encode($maxlng + $dlng, $maxlat - $dlat),
-            self::encode($minlng - $dlng, $minlat - $dlat),
-            self::encode($minlng + $dlng, $minlat - $dlat),
-            self::encode($maxlng + $dlng, $minlat - $dlat),
+            self::encode($minlng - $dlng, $maxlat + $dlat, $prec),
+            self::encode($minlng + $dlng, $maxlat + $dlat, $prec),
+            self::encode($maxlng + $dlng, $maxlat + $dlat, $prec),
+            self::encode($minlng - $dlng, $maxlat - $dlat, $prec),
+            self::encode($maxlng + $dlng, $maxlat - $dlat, $prec),
+            self::encode($minlng - $dlng, $minlat - $dlat, $prec),
+            self::encode($minlng + $dlng, $minlat - $dlat, $prec),
+            self::encode($maxlng + $dlng, $minlat - $dlat, $prec),
         );
     }
 
