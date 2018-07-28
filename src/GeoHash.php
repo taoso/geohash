@@ -72,6 +72,22 @@ class GeoHash
         );
     }
 
+    public static function getBoundingBox($hash)
+    {
+        list($minlng, $maxlng, $minlat, $maxlat) = self::decode($hash);
+
+        return array(
+            "top_left" => array(
+                "lat" => $maxlat,
+                "lon" => $minlon
+            ),    
+            "bottom_right" => array(
+                "lat" => $minlat,
+                "lon" => $maxlon
+            ),    
+        );
+    }
+
     public static function getRect($hash)
     {
         list($minlng, $maxlng, $minlat, $maxlat) = self::decode($hash);
